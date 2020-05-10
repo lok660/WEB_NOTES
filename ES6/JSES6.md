@@ -134,15 +134,138 @@ for (const char of name){
 }
 ```
 
-6.Array.from of
+6.Array
+
+> from
 
 ```js
 // from不是在原型上的方法,所以只能Array.from
 const todos = document.querySelectorAll('li')
-
+//	第二参数相当于map方法对每个元素进行操作
 const names = Array.from(todos, todo => todo.textContent)
 
 const website = 'Laravise'
 console.log(Array.from(website))  //  L a r a v i s e
+```
+
+> of
+
+```js
+// 传入参数不同,输出值也不同
+const arr1 = new Array(7)         //  [undefined x 7]
+const arr2 = new Array(1, 2)      //  [1,2]
+
+const arr3 = Array.of(7)          //  [7]
+const arr4 = Array.of(1, 2, 3)    //  [1,2,3]
+```
+
+7.Class
+
+> 与构造函数不同,类如果在声明之前使用,不会存在变量提升,而是会报错
+>
+> 只能通过new调用
+
+```js
+class User {
+  // 类构造方法
+  constructor(name, email) {
+    this.name = name
+    this.email = email
+  }
+  // 类方法
+  info () {
+    console.log('hello world')
+  }
+  // 静态方法只能通过类名.调用
+  static description () {
+    console.log('im a user of codecasts.com')
+  }
+  set github (value) {
+    this.githubName = value
+  }
+  get github () {
+    return `github.com/${this, githubName}`
+  }
+}
+```
+
+```js
+class Dog extends Animal {
+  constructor(name, age) {
+    super(name)
+    this.age = age
+  }
+
+  bark () {
+    console.log('Barl bark!')
+  }
+}
+
+const lucky = new Dog('lucky', 2)
+```
+
+8.遍历器
+
+```js
+//	重写Array.values方法
+Array.prototype.values = function () {
+  let i = 0
+  let items = this
+
+  return {
+    next () {
+      const done = i >= items.length
+      const value = done ? undefined : items[i++]
+      return {
+        value, done
+      }
+    }
+  }
+}
+
+const colors = ['red', 'blue', 'green']
+```
+
+9.Proxy
+
+> 保护或是说预处理,判断方法是否符合你的逻辑,或者你可以手动改变,从而存入对象中
+
+```js
+const person = { name: 'laravise', age: 2000 }
+
+const personProxy = new Proxy(person, {
+  // 获取属性并且将值转化为大写
+  get (target, key) {
+    return target[key].touPPerCase()
+  },
+  // 设置属性的时候去除空格
+  set (target, key, value) {
+    if (typeof value === 'string') {
+      target[key] = value.trim()
+    }
+  }
+})
+
+personProxy.name = 'codecasts'
+```
+
+```js
+const phonerHandler = {
+  // 设置属性的时候先去掉空格
+  set (target, key, value) {
+    target[key] = value.match(/[0-9]/g).join('')
+  },
+  get (target, key) {
+    return target[key].replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
+  }
+}
+
+const phonerHandler = new Proxy({}, phonerHandler)
+
+// 设置
+phonerHandler.number = '136 4799 1457'  //  13647991457
+
+//  获取
+phonerHandler.numer   //  136-4799-1457
 ```
 
