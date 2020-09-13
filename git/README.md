@@ -71,12 +71,12 @@ git show <版本号>
 ##  本地保存修改
 +   $ git add * 将所有修改加入暂存区
 +   $ git commit -m '该次修改的说明' 将暂存区的修改永久保存到版本库
- 
+
 ##  查看版本
 +   $ git log
 +   $ git log --oneline
 +   $ git log --graph --oneline --decorate
- 
+
 ## 标签
 1.  添加标签
 ```
@@ -91,4 +91,7 @@ $ git tag -a v1.2 9fceb02
 > 如果要一次推送所有本地新增的标签上去，可以使用 --tags 选项
 
 参考： 
-* [基础 - 打标签](https://git-scm.com/book/zh/v1/Git-%E5%9F%BA%E7%A1%80-%E6%89%93%E6%A0%87%E7%AD%BE)
+
+[实战经验]: https://github.com/alowkeyguy/zgtBlog/tree/master/git
+[基础]: https://git-scm.com/book/zh/v1/Git-%E5%9F%BA%E7%A1%80-%E6%89%93%E6%A0%87%E7%AD%BE
+
